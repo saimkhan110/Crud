@@ -7,6 +7,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(UPLOAD_DIR));
+app.use('/api/categories', require('./routes/categoryRoutes'));
 app.use('/api/products', require('./routes/productRoutes'));
 app.use((req, res) => res.status(404).json({ success: false, message: 'Route not found' }));
 
@@ -17,3 +18,4 @@ app.use((error, req, res, next) => {
 });
 
 module.exports = app;
+

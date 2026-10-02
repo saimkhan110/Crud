@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const upload = require('../middleware/upload');
+const upload = require('../middleware/productUpload');
 const { createProduct, getAllProducts, getProductByID, updateProduct, deleteProduct } = require('../controllers/productController');
 const router = express.Router();
 
@@ -18,3 +18,4 @@ router.put('/:id', upload.single('image'), updateProduct);
 router.delete('/:id', deleteProduct);
 
 module.exports = router;
+
