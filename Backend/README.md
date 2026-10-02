@@ -21,7 +21,7 @@ Simple Express, MongoDB and Multer project using separate models, controllers, r
 
 Product fields: `name` (required), `price` (required, minimum 0), `description`, `category` (simple text), `stock` (minimum 0), `isActive` (default true). Images use the `image` file field. Only `.png`, `.jpg`, `.jpeg` extensions and PNG/JPEG MIME types are accepted, up to 5 MB. This checks extension and MIME metadata, not the file's actual contents.
 
-Use multipart form-data when uploading a file. JSON is also supported for requests without images. Do not manually set the Content-Type header for multipart requests; Postman sets the boundary automatically.
+Use multipart form-data when uploading a file. JSON is also supported for requests without images. Do not manually set the Content-Type header for multipart requests; Your HTTP client sets the boundary automatically.
 
 Example JSON:
 
@@ -31,12 +31,9 @@ Example JSON:
 
 Image paths such as `uploads/example.jpg` are available at `http://localhost:5000/uploads/example.jpg` through `express.static()`.
 
-## Postman
-
-Import `postman/Product-CRUD.postman_collection.json`. Select a local image file in Create Product and Replace Image requests. Run Create first: it automatically saves `productId` and `imagePath` collection variables. Then run the read, update and delete requests in order. Status and response assertions are included. After deletion, the final requests check that the record and image return 404. The rejected upload example requires selecting a .txt file.
-
 ## Tests
 
-`npm test` runs HTTP tests with the actual Express routes and Multer disk uploads. A small in-memory model stub replaces MongoDB in these tests; run the Postman collection against a connected MongoDB for database integration verification.
+`npm test` runs HTTP tests with the actual Express routes and Multer disk uploads. A small in-memory model stub replaces MongoDB in these tests; use a connected MongoDB for database integration verification.
 
 `.env`, installed dependencies and uploaded images are excluded from Git. Never commit MongoDB passwords.
+
