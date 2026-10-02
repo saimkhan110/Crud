@@ -11,12 +11,17 @@ test('Product CRUD, static images, replacement and failed upload cleanup', async
     Product.create = async (fields) => {
         const product = new Product(fields);
         await product.validate();
-        product.save = async () => { await product.validate(); records.set(String(product._id), product); return product; };
+        product.save = async () => { await product.validate(); records.set(String(product._id), product.toObject()); return product; };
         await product.save();
         return product;
     };
     Product.find = () => ({ sort: async () => [...records.values()] });
-    Product.findById = async (id) => records.get(id) || null;
+    Product.findById = async (id) => {
+        if (!records.has(id)) return null;
+        const product = new Product(records.get(id));
+        product.save = async () => { await product.validate(); records.set(id, product.toObject()); return product; };
+        return product;
+    };
     Product.findByIdAndDelete = async (id) => { const product = records.get(id); records.delete(id); return product || null; };
     const server = app.listen(0, '127.0.0.1');
     await new Promise(resolve => server.once('listening', resolve));
@@ -64,3 +69,4 @@ test('Product CRUD, static images, replacement and failed upload cleanup', async
         }
     }
 });
+
